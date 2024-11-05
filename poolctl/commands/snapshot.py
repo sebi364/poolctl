@@ -43,6 +43,10 @@ def snapshot(pool, name, description):
     r = get(f'pools/{pool}').json()
     for m in r['data']['members']:
         targets.append(f"nodes/{m['node']}/{m['id']}")
+    
+    if len(targets) == 0:
+        log.info("The pool is empty, there's nothing to do!")
+        exit(0)
 
     # snapshot
     for t in targets:

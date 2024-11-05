@@ -1,7 +1,10 @@
-api_user = "<user>"
-api_url = "https://<someserver>/api2/json/"
-api_secret = "<secret>"
-api_verify = False
-pve_peers = [<node IP's>]
+import toml
+import os
 
-# Note to self, don't hardocde credentials
+config = toml.load(os.path.expanduser('~/.poolctl.toml'))
+
+api_user = config.get('api_user')
+api_url = config.get('api_url')
+api_secret = config.get('api_secret')
+api_verify = config.get('api_verify')
+pve_peers = config.get('pve_peers')

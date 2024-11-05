@@ -37,8 +37,17 @@ def rollback(pool, name):
     r = get(f'pools/{pool}').json()
     for m in r['data']['members']:
         targets.append(f"nodes/{m['node']}/{m['id']}")
+    
+    if len(targets) == 0:
+        log.info("The pool is empty, there's nothing to do!")
+        exit(0)
 
-    # snapshot
+    # roll back snapshot
     for t in targets:
-        log.info(f"Rolling back snapshot off '{t}' to '{name}'")
-        post(f"{t}/snapshot/{name}/rollback")
+        snapshots = [s['name'] for s in get(f"{t}/snapshot").json()['data']]
+        if name in snapshots:
+            log.info(f"Rolling back snapshot off '{t}' to '{name}'")
+            post(f"{t}/snapshot/{name}/rollback")
+        else:
+            log.error(f"The target {t} has no snapshot named {name}. Skipping...")
+            log.info(f"This target can be rolled back to one of the following snapshots: {snapshots}")
