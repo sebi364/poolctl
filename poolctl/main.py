@@ -5,10 +5,10 @@ import rich_click as click
 from commands.snapshot import snapshot
 from commands.rollback import rollback
 from commands.status import status
-from commands.start import start
-from commands.suspend import suspend
-from commands.resume import resume
-from commands.stop import stop
+from commands.power import start
+from commands.power import suspend
+from commands.power import resume
+from commands.power import stop
 
 @click.group()
 def main():

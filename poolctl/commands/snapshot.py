@@ -1,6 +1,7 @@
 import rich_click as click
 from support.log import log
 from support.pveapi import get, post
+from support.common import get_pool_resources
 
 @click.command(
     help = "Create a snapshot of all VMs in a pool"
@@ -27,32 +28,14 @@ def snapshot(pool, name, description):
     if name == None:
         log.error("You have to provide a snapshot-name!")
         exit(1)
-    if pool == None:
-        log.error("You have to provide a pool-name!")
-        exit(1)
     
-    # check if pool with given name exists
-    pools = get('pools').json()
-
-    if pool not in [p['poolid'] for p in pools['data']]:
-        log.info(f"There's no pool named {pool}, exiting...")
-        exit()
-    
-    # get targets
-    targets = []
-    r = get(f'pools/{pool}').json()
-    for m in r['data']['members']:
-        targets.append(f"nodes/{m['node']}/{m['id']}")
-    
-    if len(targets) == 0:
-        log.info("The pool is empty, there's nothing to do!")
-        exit(0)
+    resources = get_pool_resources(pool)
 
     # snapshot
-    for t in targets:
-        log.info(f"Creating snapshot off '{t}'")
+    for r in resources:
+        log.info(f"Creating snapshot of '{r}'")
         post(
-            f"{t}/snapshot",
+            f"{r}/snapshot",
             data={
                 'snapname': name,
                 'description': description,

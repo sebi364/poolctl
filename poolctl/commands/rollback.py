@@ -1,6 +1,7 @@
 import rich_click as click
 from support.log import log
 from support.pveapi import get, post
+from support.common import get_pool_resources
 
 @click.command(
     help = "Rollback to a snapshot of a pool"
@@ -21,33 +22,16 @@ def rollback(pool, name):
     if name == None:
         log.error("You have to provide a snapshot-name!")
         exit(1)
-    if pool == None:
-        log.error("You have to provide a pool-name!")
-        exit(1)
     
     # check if pool with given name exists
-    pools = get('pools').json()
-
-    if pool not in [p['poolid'] for p in pools['data']]:
-        log.info(f"There's no pool named {pool}, exiting...")
-        exit()
-    
-    # get targets
-    targets = []
-    r = get(f'pools/{pool}').json()
-    for m in r['data']['members']:
-        targets.append(f"nodes/{m['node']}/{m['id']}")
-    
-    if len(targets) == 0:
-        log.info("The pool is empty, there's nothing to do!")
-        exit(0)
+    resources = get_pool_resources(pool)
 
     # roll back snapshot
-    for t in targets:
-        snapshots = [s['name'] for s in get(f"{t}/snapshot").json()['data']]
+    for r in resources:
+        snapshots = [s['name'] for s in get(f"{r}/snapshot").json()['data']]
         if name in snapshots:
-            log.info(f"Rolling back snapshot off '{t}' to '{name}'")
-            post(f"{t}/snapshot/{name}/rollback")
+            log.info(f"Rolling back snapshot off '{r}' to '{name}'")
+            post(f"{r}/snapshot/{name}/rollback")
         else:
-            log.error(f"The target {t} has no snapshot named {name}. Skipping...")
+            log.error(f"The target {r} has no snapshot named {name}. Skipping...")
             log.info(f"This target can be rolled back to one of the following snapshots: {snapshots}")
