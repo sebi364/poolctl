@@ -1,6 +1,7 @@
 import poolctl.support.config
 
 from rich import traceback
+
 traceback.install(show_locals=True)
 
 import rich_click as click
@@ -14,9 +15,11 @@ from poolctl.commands.power import suspend
 from poolctl.commands.power import resume
 from poolctl.commands.power import stop
 
+
 @click.group()
 def main():
     """PoolCTL is a handy python tool for managing pools in a proxmox based lab"""
+
 
 main.add_command(configure)
 main.add_command(snapshot)
