@@ -1,6 +1,5 @@
 import rich_click as click
-from poolctl.support.config import conf
-
+import poolctl.support.pveapi
 
 @click.command(help="Configure poolctl")
 def configure():

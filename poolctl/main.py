@@ -1,5 +1,4 @@
-import poolctl.support.config
-
+import poolctl.support.pveapi
 from rich import traceback
 
 traceback.install(show_locals=True)
