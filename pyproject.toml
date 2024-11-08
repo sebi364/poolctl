@@ -6,7 +6,7 @@ authors = ["sebi364 <110155948+sebi364@users.noreply.github.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.12"
+python = "^3.11"
 requests = "^2.32.3"
 rich-click = "^1.8.3"
 rich = "^13.9.4"
