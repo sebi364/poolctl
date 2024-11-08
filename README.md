@@ -29,5 +29,17 @@ poolctl suspend -p <poolname>
 poolctl resume -p <poolname>
 ```
 
-## Installation
-(ToDo)
+## Getting started
+1. Install poolctl using [pipx](https://github.com/pypa/pipx):
+    ```bash
+    pipx install git+https://github.com/sebi364/poolctl.git
+    ```
+2. Create a new API key under `Datacenter > Permissions API Tokens > Add`. Keep in mind that you will need to give the key high enough privilidges *(or just make a key for the root user with no privilege separation)*
+3. Run `poolctl configure`, this command will create the config file for you.
+    ```
+    root@pve:~# poolctl configure
+    API-User: xxxx@pam!xxxx
+    API-URL: https://xxxxxxx/api2/json/
+    API-Secret: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+    SSL [True/False]: True
+    ```
