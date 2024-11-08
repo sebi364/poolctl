@@ -1,4 +1,5 @@
 from support.pveapi import get, post
+from support.log import log
 
 def get_pool_resources(pool):
     if pool == None:
