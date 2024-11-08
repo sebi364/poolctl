@@ -97,7 +97,7 @@ def get(endpoint):
     return r
 
 
-def post(endpoint, json=None):
+def post(endpoint, data=None):
     r = requests.post(
         f"{conf.api_url}{endpoint}",
         headers=conf.headers,
