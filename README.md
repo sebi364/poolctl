@@ -1,13 +1,16 @@
+> [!WARNING]
+> This whole project is still very much a work in progress, use at your own risk.
+
 # Poolctl
 Poolctl is a python CLI tool to simplify managing proxmox resources on a pool basis.
 
 ## Background
-Proxmox resource pools are a great way of keepig multiple projects / lab-environments organized, however I felt like it was missing the ability to perform actions on all VMs in a specific Pool.
+Proxmox resource pools are a great way of keepig multiple projects / lab-environments organized. However I felt that they lacked functionality to perform actions on all VMs in a specific Pool.
 
-**For example:** I have an Active-Directory lab for school with +/- 8 VMs that are all in one pool named "lab1". I want to test something, but I'm pretty sure that this will probably break something and fixnig it will be quite a mess. Making Snapshots of all VMs and rolling them back by hand can be quit a burden, that's why I made this tool.
+**For example:** I have an Active Directory lab for school with around 8 VMs, all grouped into a pool named "lab1". I want to test something, but I'm fairly certain it will break something, and fixing it would be a hassle. Creating snapshots of all VMs and rolling them back manually can be cumbersome, that's why I created this tool.
 
 ## Features
-Poolctl provides a few commands that can help you manage a lab:
+Poolctl offers several commands to help you manage your lab environments more easily:
 ```bash
 # create a new snapshot of all resource in a pool
 poolctl snapshot -p <poolname> -n <snapshotname>
