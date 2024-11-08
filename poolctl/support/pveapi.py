@@ -13,7 +13,7 @@ headers = {}
 class LiveConf:
     def __init__(self):
         # get cookie
-        process = subprocess.Popen(['perl', "scripts/get_token.pl"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        process = subprocess.Popen(['perl', "poolctl/scripts/get_token.pl"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         output, error = process.communicate()
         cookie, csrftoken = output.decode('utf-8').split(";")
         # config
