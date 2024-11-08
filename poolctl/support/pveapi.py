@@ -103,6 +103,6 @@ def post(endpoint, data=None):
         headers=conf.headers,
         cookies=conf.cookies,
         verify=conf.api_verify,
-        json=json,
+        json=data,
     )
     return r
