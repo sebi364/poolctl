@@ -29,12 +29,18 @@ poolctl suspend <poolname>
 poolctl resume <poolname>
 ```
 
-## Getting started
+## Installation
+### Using pipx (recommended):
+pipx is a tool specifically designed for installing command-line tools. It helps manage these tools and ensures they are installed in isolated environments.
 1. Install poolctl using [pipx](https://github.com/pypa/pipx):
     ```bash
     pipx install git+https://github.com/sebi364/poolctl.git
     ```
-2. Create a new API key under `Datacenter > Permissions API Tokens > Add`. Keep in mind that you will need to give the key high enough privilidges *(or just make a key for the root user with no privilege separation)*
+
+## Configuration
+If you're installing poolctl directly on a Proxmox VE node, no additional configuration is needed.
+## On other systems
+1. Create a new API key under `Datacenter > Permissions API Tokens > Add`. Keep in mind that you will need to give the key high enough privilidges *(or just make a key for the root user with no privilege separation)*
 3. Run `poolctl configure`, this command will create the config file for you.
     ```
     root@pve:~# poolctl configure
