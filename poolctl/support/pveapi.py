@@ -17,7 +17,7 @@ class LiveConf:
         output, error = process.communicate()
         cookie, csrftoken = output.decode('utf-8').split(";")
         # config
-        self.api_url = f"https://127.0.0.1:8006/api2/json/pools"
+        self.api_url = f"https://127.0.0.1:8006/api2/json/"
         self.api_verify = False
         self.headers = {
             "CSRFPreventionToken": csrftoken.strip()
@@ -71,13 +71,12 @@ class FileConf:
 try:
     if os.path.exists("/usr/bin/pvesh") and os.geteuid() == 0:
         conf = LiveConf()
-        exit()
+    else:
+        conf = FileConf()
         
 except:
     # probably not a pve host, use normal config
-    pass
-
-conf = FileConf()
+    conf = FileConf()
 
 # ------------------------------------------------------------------------------------
 
