@@ -13,20 +13,20 @@ Proxmox resource pools are a great way of keepig multiple projects / lab-environ
 Poolctl offers several commands to help you manage your lab environments more easily:
 ```bash
 # create a new snapshot of all resource in a pool
-poolctl snapshot -p <poolname> -n <snapshotname>
+poolctl snapshot <poolname> <snapshotname>
 
 # rollback all resources to a snapshot
-poolctl rollback -p <poolname> -n <snapshotname>
+poolctl rollback <poolname> <snapshotname>
 
 # show a handy status page
 poolctl status
 poolctl status -p <poolname>
 
 # power controlls
-poolctl start -p <poolname>
-poolctl stop -p <poolname>
-poolctl suspend -p <poolname>
-poolctl resume -p <poolname>
+poolctl start <poolname>
+poolctl stop <poolname>
+poolctl suspend <poolname>
+poolctl resume <poolname>
 ```
 
 ## Getting started
