@@ -2,13 +2,13 @@ from rich import traceback
 traceback.install(show_locals=True)
 
 import rich_click as click
-from commands.snapshot import snapshot
-from commands.rollback import rollback
-from commands.status import status
-from commands.power import start
-from commands.power import suspend
-from commands.power import resume
-from commands.power import stop
+from poolctl.commands.snapshot import snapshot
+from poolctl.commands.rollback import rollback
+from poolctl.commands.status import status
+from poolctl.commands.power import start
+from poolctl.commands.power import suspend
+from poolctl.commands.power import resume
+from poolctl.commands.power import stop
 
 @click.group()
 def main():

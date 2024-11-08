@@ -1,6 +1,6 @@
 import rich_click as click
-from support.log import log, console
-from support.pveapi import get, post
+from poolctl.support.log import log, console
+from poolctl.support.pveapi import get, post
 from rich.table import Table, box
 
 def paint_status(status):

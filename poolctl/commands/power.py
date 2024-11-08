@@ -1,7 +1,7 @@
 import rich_click as click
-from support.log import log
-from support.pveapi import get, post
-from support.common import get_pool_resources
+from poolctl.support.log import log
+from poolctl.support.pveapi import get, post
+from poolctl.support.common import get_pool_resources
 
 @click.command(
     help = "Start all resources in a pool"

@@ -1,4 +1,4 @@
-import support.config as conf
+import poolctl.support.config as conf
 import requests
 
 requests.packages.urllib3.disable_warnings()

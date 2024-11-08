@@ -1,6 +1,6 @@
 import string
 import random
-from support.log import log, console
+from poolctl.support.log import log, console
 
 def randstring(length):
     return ''.join([random.choice(string.ascii_lowercase) for i in range(length)])
