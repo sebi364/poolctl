@@ -28,9 +28,9 @@ def pool_overview():
 
         for m in d["members"]:
             vms += 1
-            cpu_aloc += m["maxcpu"]
+            cpu_aloc += m["maxcpu"] if bool(m["template"]) == False else 0
             cpu_used += m["cpu"]
-            mem_aloc += m["maxmem"]
+            mem_aloc += m["maxmem"] if bool(m["template"]) == False else 0
             mem_used += m["mem"]
             hdd_aloc += m["maxdisk"]
 
@@ -83,9 +83,9 @@ def pool_detail(pool):
                 m["name"],
                 m["vmid"],
                 m["type"],
-                m["maxmem"],
+                m["maxmem"] if bool(m["template"]) == False else 0,
                 m["mem"],
-                m["maxcpu"],
+                m["maxcpu"] if bool(m["template"]) == False else 0,
                 m["cpu"],
                 m["maxdisk"],
                 bool(m["template"]),
