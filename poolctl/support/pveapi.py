@@ -42,14 +42,12 @@ class FileConf:
             log.critical("Unable to read config file!")
             log.info("You can initialize poolctl using 'poolctl configure'")
 
-            self.config_type = "toml"
             self.api_url = ""
             self.api_verify = True
             self.headers = {}
             self.cookies = {}
         else:
             config = toml.load(config_file)
-            self.config_type = "toml"
             self.api_url = config.get("api_url")
             self.api_verify = config.get("api_verify")
             self.headers = {
