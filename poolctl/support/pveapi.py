@@ -60,6 +60,7 @@ class FileConf:
             if self.api_verify == False:
                 requests.packages.urllib3.disable_warnings()
 
+
 # check if the script is running as the root user on a PVE host
 try:
     if os.path.exists("/usr/bin/pvesh") and os.geteuid() == 0:
