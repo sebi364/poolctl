@@ -40,14 +40,16 @@ class FileConf:
 
         if not config_file.exists():
             log.critical("Unable to read config file!")
-            log.info("You can initialize poolctl using 'poolctl config'")
+            log.info("You can initialize poolctl using 'poolctl configure'")
 
+            self.config_type = "toml"
             self.api_url = ""
             self.api_verify = True
             self.headers = {}
             self.cookies = {}
         else:
             config = toml.load(config_file)
+            self.config_type = "toml"
             self.api_url = config.get("api_url")
             self.api_verify = config.get("api_verify")
             self.headers = {
@@ -57,21 +59,6 @@ class FileConf:
 
             if self.api_verify == False:
                 requests.packages.urllib3.disable_warnings()
-
-    def configure(self):
-        config = {}
-
-        config["api_user"] = input("API-User: ")
-        config["api_url"] = input("API-URL: ")
-        config["api_secret"] = input("API-Secret: ")
-        config["api_verify"] = bool(input("SSL [True/False]: "))
-
-        if not CONFIG_DIR.exists():
-            CONFIG_DIR.mkdir()
-
-        with open(CONFIG_FILE, "w") as f:
-            toml.dump(config, f)
-
 
 # check if the script is running as the root user on a PVE host
 try:
