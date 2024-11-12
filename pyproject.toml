@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "poolctl"
-version = "0.1.0"
+version = "0.1.1"
 description = ""
 authors = ["sebi364 <110155948+sebi364@users.noreply.github.com>"]
 readme = "README.md"
@@ -13,6 +13,7 @@ rich-click = "^1.8.3"
 rich = "^13.9.4"
 toml = "^0.10.2"
 pathlib = "^1.0.1"
+questionary = "^2.0.1"
 
 
 [build-system]
