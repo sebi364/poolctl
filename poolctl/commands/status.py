@@ -14,61 +14,87 @@ def paint_status(status):
 
 
 def pool_overview():
+    data = get("cluster/resources").json()["data"]
+    pools = {}
+
+    for p in data:
+        if p["type"] == "pool":
+            pools[p["pool"]] = {
+                "clients": 0,
+                "cpu_aloc": 0,
+                "cpu_used": 0,
+                "mem_aloc": 0,
+                "mem_used": 0,
+                "hdd_aloc": 0,
+            }
+
+    pools[None] = {
+        "clients": 0,
+        "cpu_aloc": 0,
+        "cpu_used": 0,
+        "mem_aloc": 0,
+        "mem_used": 0,
+        "hdd_aloc": 0,
+    }
+
+    for r in data:
+        if r["type"] == "qemu" or r["type"] == "lxc":
+            if "pool" not in r.keys():
+                r["pool"] = (
+                    None  # set empty pool, if not assigned to a pool
+                )
+
+            pools[r["pool"]]["clients"] += 1
+            pools[r["pool"]]["cpu_aloc"] += (
+                r["maxcpu"] if bool(r["template"]) == False else 0
+            )
+            pools[r["pool"]]["cpu_used"] += r["cpu"]
+            pools[r["pool"]]["mem_aloc"] += (
+                r["maxmem"] if bool(r["template"]) == False else 0
+            )
+            pools[r["pool"]]["mem_used"] += r["mem"]
+            pools[r["pool"]]["hdd_aloc"] += r["maxdisk"]
+
+    # format back to list
     output = []
-
-    for p in get("pools").json()["data"]:
-        d = get(f"pools/{p['poolid']}").json()["data"]
-
-        vms = 0
-        cpu_aloc = 0
-        cpu_used = 0
-        mem_aloc = 0
-        mem_used = 0
-        hdd_aloc = 0
-
-        for m in d["members"]:
-            vms += 1
-            cpu_aloc += m["maxcpu"] if bool(m["template"]) == False else 0
-            cpu_used += m["cpu"]
-            mem_aloc += m["maxmem"] if bool(m["template"]) == False else 0
-            mem_used += m["mem"]
-            hdd_aloc += m["maxdisk"]
-
-        output.append(
-            [p["poolid"], vms, mem_aloc, mem_used, cpu_aloc, cpu_used, hdd_aloc]
-        )
+    for i in pools.keys():
+        pools[i]["pool"] = i
+        output.append(pools[i])
 
     # -----------------------------------------------------------------
 
     table = Table(box=box.MINIMAL, highlight=True, show_footer=True)
 
     table.add_column("Poolname:")
-    table.add_column("Clients:", footer=f"{sum([i[1] for i in output])}")
+    table.add_column("Clients:", footer=f"{sum([i['clients'] for i in output])}")
     table.add_column(
-        "Memory (aloc.):", footer=f"{round(sum([i[2] for i in output]) / 2**30, 2)} GB"
+        "Memory (aloc.):",
+        footer=f"{round(sum([i['mem_aloc'] for i in output]) / 2**30, 2)} GB",
     )
     table.add_column(
-        "Memory (used):", footer=f"{round(sum([i[3] for i in output]) / 2**30, 2)} GB"
+        "Memory (used):",
+        footer=f"{round(sum([i['mem_used'] for i in output]) / 2**30, 2)} GB",
     )
     table.add_column(
-        "Core (aloc.):", footer=f"{round(sum([i[4] for i in output]), 2)} CPU"
+        "Core (aloc.):", footer=f"{round(sum([i['cpu_aloc'] for i in output]), 2)} CPU"
     )
     table.add_column(
-        "Core (used):", footer=f"{round(sum([i[5] for i in output]), 2)} CPU"
+        "Core (used):", footer=f"{round(sum([i['cpu_used'] for i in output]), 2)} CPU"
     )
     table.add_column(
-        "Storage:", footer=f"{round(sum([i[6] for i in output]) / 2**30, 2)} GB"
+        "Storage:",
+        footer=f"{round(sum([i['hdd_aloc'] for i in output]) / 2**30, 2)} GB",
     )
 
     for p in output:
         table.add_row(
-            f"[bold]{p[0]}[/]",
-            f"{p[1]}",
-            f"{round(p[2] / 2**30, 2)} GB",
-            f"{round(p[3] / 2**30, 2)} GB",
-            f"{p[4]} CPU",
-            f"{round(p[5], 2)} CPU",
-            f"{round(p[6] / 2**30, 2)} GB",
+            f"[bold]{p['pool']}[/]",
+            f"{p['clients']}",
+            f"{round(p['mem_aloc'] / 2**30, 2)} GB",
+            f"{round(p['mem_used'] / 2**30, 2)} GB",
+            f"{p['cpu_aloc']} CPU",
+            f"{round(p['cpu_used'], 2)} CPU",
+            f"{round(p['hdd_aloc'] / 2**30, 2)} GB",
         )
 
     console.print(table)
