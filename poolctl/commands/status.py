@@ -28,7 +28,7 @@ def pool_overview():
                 "hdd_aloc": 0,
             }
 
-    pools["[italic](other)"] = {
+    pools[None] = {
         "clients": 0,
         "cpu_aloc": 0,
         "cpu_used": 0,
@@ -41,7 +41,7 @@ def pool_overview():
         if r["type"] == "qemu" or r["type"] == "lxc":
             if "pool" not in r.keys():
                 r["pool"] = (
-                    "[italic](other)"  # set empty pool, if not assigned to a pool
+                    None  # set empty pool, if not assigned to a pool
                 )
 
             pools[r["pool"]]["clients"] += 1
