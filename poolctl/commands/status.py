@@ -40,9 +40,7 @@ def pool_overview():
     for r in data:
         if r["type"] == "qemu" or r["type"] == "lxc":
             if "pool" not in r.keys():
-                r["pool"] = (
-                    None  # set empty pool, if not assigned to a pool
-                )
+                r["pool"] = None  # set empty pool, if not assigned to a pool
 
             pools[r["pool"]]["clients"] += 1
             pools[r["pool"]]["cpu_aloc"] += (
