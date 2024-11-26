@@ -23,7 +23,7 @@ def snapshot(pool, snapshot, description):
 
     for r in resources:
         log.info(f"Creating snapshot of '{r}' named '{snapshot}'")
-        r = post(
+        post(
             f"{r}/snapshot",
             data={"snapname": snapshot, "description": description, "vmstate": True},
         )
