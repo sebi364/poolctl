@@ -4,6 +4,7 @@ from poolctl.support.pveapi import get, post
 from poolctl.support.common import get_pool_resources
 from time import strftime
 
+
 @click.command(help="Create a snapshot of all VMs in a pool")
 @click.argument("pool")
 @click.option(
@@ -23,7 +24,18 @@ def snapshot(pool, snapshot, description):
 
     for r in resources:
         log.info(f"Creating snapshot of '{r}' named '{snapshot}'")
-        post(
-            f"{r}/snapshot",
-            data={"snapname": snapshot, "description": description, "vmstate": True},
-        )
+        r_type = r.split("/")[2]
+        if r_type == "qemu":
+            post(
+                f"{r}/snapshot",
+                data={
+                    "snapname": snapshot,
+                    "description": description,
+                    "vmstate": True,  # only a qemu VM has the vmstate option
+                },
+            )
+        else:
+            post(
+                f"{r}/snapshot",
+                data={"snapname": snapshot, "description": description},
+            )
