@@ -1,5 +1,5 @@
 > [!WARNING]
-> This whole project is still very much a work in progress, use at your own risk.
+> This project has been archived and moved to codeberg: https://codeberg.org/sebi364/poolctl
 
 # Poolctl
 Poolctl is a python CLI tool to simplify managing proxmox resources on a pool basis.
